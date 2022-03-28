@@ -50,7 +50,7 @@ def plot_case(data,country_name):
     #test = plt.subplots()
     #fig = test,(specs=[[{'secondary_y':True}]])
     
-    new_data = pd.DataFrame({'date':data.date,'total_cases':data.total_cases_per_million,'new_cases':data.new_cases_per_million})
+   new_data = pd.DataFrame({'date':data.date,'total_cases':data.total_cases_per_million,'new_cases':data.new_cases_per_million})
     df = pd.DataFrame(new_data,columns=['date','total_cases'])
     df.plot(x ='date', y='total_cases', kind = 'scatter')
     #plt.show()
@@ -67,20 +67,18 @@ def plot_case(data,country_name):
 #plt.xlabel('Date')
 #plt.ylabel('Deaths')
 
-def create_and_plot_df(df, country):
+def plot_diff(df, country):
     #Selecting the 7 key columns for country in dataset
     df=df[df['location']==country].copy()
     df.date = pd.to_datetime(df['date'])
     df.set_index('date', inplace=True)
-    df['7 days MA new deaths'] = 0
-    df['7 days MA new deaths'] = df['new_deaths'].rolling(7).mean()
-    df['7 days MA new cases per million'] = 0
-    df['7 days MA new cases per million'] = df['new_cases_per_million'].rolling(7).mean()
-    df['7 days MA new deaths per million'] = 0
-    df['7 days MA new deaths per million'] = df['new_deaths_per_million'].rolling(7).mean()
   
 
-    df[['new_deaths', '7 days MA new deaths']].plot(figsize = (15, 5), alpha = 0.5)
+   df[['new_deaths']].plot(figsize = (15, 5), alpha = 0.5)
   
-    #Return the dataframe processed
-    return df
+  
+   return df
+   
+plot_diff(df, 'United Kingdom')
+plot_diff(df, 'United States')
+plot_diff(df, 'Denmark')
